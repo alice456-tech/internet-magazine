@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitButton = document.querySelector('#contact-form button[type="submit"]');
     const formInputs = form.querySelectorAll('input, textarea');
 
+    // Создаем div для ошибок, если его нет
+    let errorDiv = document.getElementById('form-error');
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.id = 'form-error';
+        errorDiv.style.color = 'red';
+        errorDiv.style.marginTop = '10px';
+        form.parentNode.insertBefore(errorDiv, form.nextSibling);
+    }
+
     // Функция для отображения сообщений
     function showMessage(message, isError = false) {
         const messageDiv = document.createElement('div');
@@ -117,23 +127,21 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // Проверяем валидность всех полей
-        let isValid = true;
-        formInputs.forEach(input => {
-            if (!input.value) {
-                isValid = false;
-                input.classList.add('invalid');
-            }
-        });
+        errorDiv.textContent = '';
+        const name = form.elements['name'].value.trim();
+        const email = form.elements['email'].value.trim();
+        const phone = form.elements['phone'].value.trim();
+        const message = form.elements['message'].value.trim();
+        const consent = form.elements['consent'].checked;
 
-        if (!isValid) {
-            showMessage('Пожалуйста, заполните все поля формы', true);
+        if (!name || !email || !phone || !message) {
+            e.preventDefault();
+            errorDiv.textContent = 'Пожалуйста, заполните все поля формы.';
             return;
         }
-
-        // Проверяем согласие
-        if (!consentCheckbox.checked) {
-            showMessage('Необходимо дать согласие на обработку данных', true);
+        if (!consent) {
+            e.preventDefault();
+            errorDiv.textContent = 'Пожалуйста, дайте согласие на обработку данных.';
             return;
         }
 
