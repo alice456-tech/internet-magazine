@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         form.parentNode.insertBefore(errorDiv, form.nextSibling);
     }
 
-    // Кнопка отправки неактивна без согласия
+  
     const consentCheckbox = form.elements['consent'];
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.disabled = !consentCheckbox.checked;
