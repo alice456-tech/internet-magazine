@@ -20,45 +20,64 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.disabled = !consentCheckbox.checked;
     });
 
+    // Валидация email
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // Валидация телефона (разрешить любые символы, но минимум 10 цифр)
+    function validatePhone(phone) {
+        const digits = phone.replace(/\D/g, '');
+        return digits.length >= 10;
+    }
+
+    // Валидация имени (только буквы, пробелы, дефисы, 2-50 символов)
+    function validateName(name) {
+        return /^[а-яА-ЯёЁa-zA-Z\s-]{2,50}$/.test(name);
+    }
+
+    // Валидация сообщения (10-1000 символов)
+    function validateMessage(msg) {
+        return msg.length >= 10 && msg.length <= 1000;
+    }
+
     form.addEventListener('submit', function(e) {
         errorDiv.textContent = '';
-        const name = form.elements['name'].value.trim();
-        const email = form.elements['email'].value.trim();
-        const phone = form.elements['phone'].value.trim();
-        const message = form.elements['message'].value.trim();
+        let hasError = false;
+
+        const name = form.elements['name'];
+        const email = form.elements['email'];
+        const phone = form.elements['phone'];
+        const message = form.elements['message'];
         const consent = form.elements['consent'].checked;
 
-        // Имя: минимум 2 буквы
-        if (!/^[а-яА-ЯёЁa-zA-Z\s-]{2,}$/.test(name)) {
-            e.preventDefault();
-            errorDiv.textContent = 'Введите корректное имя (минимум 2 буквы).';
-            return;
-        }
-        // Телефон: только цифры, минимум 10 символов
-        if (!/^\d{10,}$/.test(phone)) {
-            e.preventDefault();
-            errorDiv.textContent = 'Введите корректный номер телефона (только цифры, минимум 10).';
-            return;
-        }
-        // Email: стандартная HTML5-валидация
-        if (!email) {
-            e.preventDefault();
+        // Сброс стилей
+        [name, email, phone, message].forEach(f => f.style.borderColor = '');
+
+        if (!validateName(name.value.trim())) {
+            name.style.borderColor = 'red';
+            errorDiv.textContent = 'Имя должно содержать только буквы, пробелы или дефисы (2-50 символов).';
+            hasError = true;
+        } else if (!validateEmail(email.value.trim())) {
+            email.style.borderColor = 'red';
             errorDiv.textContent = 'Введите корректный email.';
-            return;
-        }
-        // Сообщение: минимум 5 символов
-        if (message.length < 5) {
-            e.preventDefault();
-            errorDiv.textContent = 'Сообщение должно содержать минимум 5 символов.';
-            return;
-        }
-        // Согласие
-        if (!consent) {
-            e.preventDefault();
+            hasError = true;
+        } else if (!validatePhone(phone.value.trim())) {
+            phone.style.borderColor = 'red';
+            errorDiv.textContent = 'Введите корректный номер телефона (минимум 10 цифр).';
+            hasError = true;
+        } else if (!validateMessage(message.value.trim())) {
+            message.style.borderColor = 'red';
+            errorDiv.textContent = 'Сообщение должно содержать от 10 до 1000 символов.';
+            hasError = true;
+        } else if (!consent) {
             errorDiv.textContent = 'Пожалуйста, дайте согласие на обработку данных.';
-            return;
+            hasError = true;
         }
-        // Если всё ок — форма отправится на Formspree
+
+        if (hasError) {
+            e.preventDefault();
+        }
     });
 
     // Плавная прокрутка по якорям
