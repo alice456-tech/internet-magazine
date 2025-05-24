@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лендинг</title>
     <link rel="stylesheet" href="Untitled-1.css">
+
 </head>
 <body>
        <div class="white-banner"></div>
@@ -128,21 +129,19 @@
         <p>Электронная почта: dolgonenko198@gmail.com</p>
         <p>Часы работы: Пн-Пт 10:00 - 18:00</p>
         
-        <form action="sendmail.php" method="POST" id="contact-form">
+        <form action="https://formspree.io/f/xvganjld" method="POST" id="contact-form">
             <input type="text" name="name" placeholder="Ваше имя" required style="width: 45%;">
             <input type="email" name="email" placeholder="Ваш email" required style="width: 45%;">
             <input type="tel" name="phone" placeholder="Ваш телефон" required style="width: 45%;">
             <textarea name="message" placeholder="Ваше сообщение" required style="width: 45%;"></textarea>
-
-            <!-- Согласие на обработку данных -->
+            <input type="text" name="_gotcha" style="display:none">
             <div class="consent">
                 <input type="checkbox" id="consent" required>
                 <label for="consent">
-                 <a href="согласие на обработку данных.docx" style="font-size: 14px;">Я даю свое согласие на обработку персональных данных.</a>
+                    <a href="согласие на обработку данных.docx" style="font-size: 14px;">Я даю свое согласие на обработку персональных данных.</a>
                 </label>
             </div>
-            <!-- Кнопка отправки -->
-            <button type="submit" disabled>Отправить</button>
+            <button type="submit">Отправить</button>
         </form>
     </section>
 
