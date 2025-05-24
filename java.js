@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         form.parentNode.insertBefore(errorDiv, form.nextSibling);
     }
 
-  
+    // Кнопка отправки неактивна без согласия
     const consentCheckbox = form.elements['consent'];
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.disabled = !consentCheckbox.checked;
@@ -51,26 +51,49 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = form.elements['message'];
         const consent = form.elements['consent'].checked;
 
-        // Сброс стилей
-        [name, email, phone, message].forEach(f => f.style.borderColor = '');
+        // Сброс классов
+        [name, email, phone, message].forEach(f => {
+            f.classList.remove('valid', 'invalid');
+        });
 
+        // Проверка имени
         if (!validateName(name.value.trim())) {
-            name.style.borderColor = 'red';
+            name.classList.add('invalid');
             errorDiv.textContent = 'Имя должно содержать только буквы, пробелы или дефисы (2-50 символов).';
             hasError = true;
-        } else if (!validateEmail(email.value.trim())) {
-            email.style.borderColor = 'red';
+        } else {
+            name.classList.add('valid');
+        }
+
+        // Проверка email
+        if (!hasError && !validateEmail(email.value.trim())) {
+            email.classList.add('invalid');
             errorDiv.textContent = 'Введите корректный email.';
             hasError = true;
-        } else if (!validatePhone(phone.value.trim())) {
-            phone.style.borderColor = 'red';
+        } else if (!hasError) {
+            email.classList.add('valid');
+        }
+
+        // Проверка телефона
+        if (!hasError && !validatePhone(phone.value.trim())) {
+            phone.classList.add('invalid');
             errorDiv.textContent = 'Введите корректный номер телефона (минимум 10 цифр).';
             hasError = true;
-        } else if (!validateMessage(message.value.trim())) {
-            message.style.borderColor = 'red';
+        } else if (!hasError) {
+            phone.classList.add('valid');
+        }
+
+        // Проверка сообщения
+        if (!hasError && !validateMessage(message.value.trim())) {
+            message.classList.add('invalid');
             errorDiv.textContent = 'Сообщение должно содержать от 10 до 1000 символов.';
             hasError = true;
-        } else if (!consent) {
+        } else if (!hasError) {
+            message.classList.add('valid');
+        }
+
+        // Проверка согласия
+        if (!hasError && !consent) {
             errorDiv.textContent = 'Пожалуйста, дайте согласие на обработку данных.';
             hasError = true;
         }
