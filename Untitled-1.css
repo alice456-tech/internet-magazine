@@ -71,22 +71,29 @@ body {
 
 /* Стили для баннера */
 .banner {
-    background-color: #000000; /* Устанавливает черный фон */
-    color: #fff; /* Устанавливает белый цвет текста */
-    padding: 1px 20px; /* Устанавливает внутренние отступы */
-    display: flex; /* Использует flexbox для расположения элементов */
-    align-items: center; /* Центрирует элементы по вертикали */
-    justify-content: space-between; /* Распределяет элементы по ширине */
+    background-color: #000000;
+    color: #fff;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden; /* Скрываем возможное переполнение */
 }
 
-.banner img {
-    max-width: 45%; /* Устанавливает максимальную ширину в 45% от ширины родительского элемента */
-    height: auto; /* Автоматически устанавливает высоту */
-    margin-right: 50px; /* Устанавливает правый отступ в 50 пикселей */
+.banner-image {
+    width: 45%;
+    height: 100%;
+    object-fit: contain; /* Изменено с cover на contain */
+    margin-right: 50px;
+    background-color: #000000; /* Добавляем черный фон для изображения */
 }
 
 .banner-text {
-    max-width: 55%; /* Устанавливает максимальную ширину в 55% от ширины родительского элемента */
+    max-width: 55%;
+    padding: 40px 20px;
+    z-index: 1; /* Убеждаемся, что текст поверх изображения */
 }
 
 .banner h1 {
@@ -111,6 +118,7 @@ body {
 .section-title h2 {
     margin: 0; /* Убирает внешние отступы */
 }
+
 .carousel {
     display: grid;
     grid-template-columns: repeat(2, 342px);
@@ -125,6 +133,9 @@ body {
     grid-area: 1 / 1;
     border-inline: 10px solid rgba(0, 0, 0, 0);
     animation: scrolling 15s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .carousel__item:nth-child(2) {
@@ -147,15 +158,24 @@ body {
     animation-delay: calc((1 - 6) / 6 * 15s);
 }
 
-@keyframes scrolling {
-  16.67% {
-    transform: translate(-100%);
-  }
-
-  16.68% {
-    transform: translate(500%);
-  }
+.carousel__item img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 400px; /* Увеличенный размер */
+    object-fit: contain;
 }
+
+@keyframes scrolling {
+    16.67% {
+        transform: translate(-100%);
+    }
+
+    16.68% {
+        transform: translate(500%);
+    }
+}
+
 /* Стили для футера */
 .footer {
     background-color: #000000; /* Устанавливает черный фон */
@@ -402,32 +422,20 @@ body {
 /* Медиа-запросы для адаптивности */
 @media screen and (max-width: 1200px) {
     .banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
+        min-height: 400px;
     }
-
-    .banner img {
-        max-width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    .banner-text {
-        max-width: 100%;
-    }
-
-    .products {
-        padding: 0 15px;
+    
+    .banner-image {
+        object-fit: contain;
     }
 
     .carousel {
-        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
-    .carousel__item {
-        flex: 0 0 250px;
-        height: 250px;
+    .carousel__item img {
+        max-height: 350px;
     }
 }
 
@@ -450,22 +458,38 @@ body {
     }
 
     /* Баннер */
-    .banner h1 {
-        font-size: 24px;
+    .banner {
+        min-height: auto; /* Автоматическая высота */
+        flex-direction: column;
+        padding: 20px 0;
     }
 
-    .banner p {
-        font-size: 16px;
+    .banner-image {
+        width: 100%;
+        height: auto; /* Автоматическая высота */
+        max-height: 300px; /* Максимальная высота */
+        margin-right: 0;
+        margin-bottom: 20px;
+        object-fit: contain;
+    }
+
+    .banner-text {
+        max-width: 100%;
+        padding: 20px;
     }
 
     /* Карусель */
     .carousel {
-        gap: 15px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
 
     .carousel__item {
-        flex: 0 0 200px;
-        height: 200px;
+        padding: 10px;
+    }
+
+    .carousel__item img {
+        max-height: 300px;
     }
 
     /* Форма обратной связи */
@@ -502,6 +526,22 @@ body {
         margin: 0 8px;
         font-size: 14px;
     }
+
+    .footer-icons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .footer-icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .footer-text {
+        font-size: 12px;
+        margin-top: 15px;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -526,14 +566,11 @@ body {
 
     /* Баннер */
     .banner {
-        flex-direction: column;
-        padding: 15px 10px;
-        text-align: center;
+        padding: 15px 0;
     }
 
-    .banner img {
-        max-width: 100%;
-        margin: 0 0 15px 0;
+    .banner-image {
+        max-height: 250px; /* Меньшая максимальная высота для мобильных */
     }
 
     .banner-text {
@@ -552,22 +589,16 @@ body {
 
     /* Карусель */
     .carousel {
-        width: 100%;
-        grid-template-columns: repeat(1, 1fr);
-        margin: 5px auto;
-        padding: 5px 0;
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .carousel__item {
-        width: 100%;
-        max-width: 300px;
-        margin: 0 auto;
+        padding: 8px;
     }
 
     .carousel__item img {
-        width: 100%;
-        height: auto;
-        object-fit: contain;
+        max-height: 250px;
     }
 
     /* Разделы */
@@ -629,7 +660,7 @@ body {
     }
 
     .feature img {
-        max-width: 80px;
+        max-width: 50px; /* Еще меньшие иконки для мобильных */
         margin-bottom: 8px;
     }
 
@@ -770,6 +801,65 @@ body {
 
     .carousel__item {
         height: 180px;
+    }
+}
+
+/* Общие стили для всех изображений */
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Стили для баннера */
+.banner-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Стили для иконок в секции "О нас" */
+.feature img {
+    width: auto;
+    max-width: 80px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Стили для иконок в футере */
+.footer-icon {
+    width: auto;
+    height: auto;
+    max-width: 30px;
+    max-height: 30px;
+    object-fit: contain;
+}
+
+/* Медиа-запросы для адаптивности */
+@media screen and (max-width: 768px) {
+    .carousel__item img {
+        max-height: 250px;
+    }
+    
+    .feature img {
+        max-width: 60px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .carousel__item img {
+        max-height: 250px; /* Увеличено с 200px до 250px для мобильных */
+    }
+    
+    .feature img {
+        max-width: 50px;
+    }
+    
+    .footer-icon {
+        max-width: 25px;
+        max-height: 25px;
     }
 }
 
