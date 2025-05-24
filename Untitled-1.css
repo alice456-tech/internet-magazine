@@ -303,26 +303,33 @@ body {
 }
 
 .about-features {
-    display: flex; /* Использует flexbox для расположения элементов */
-    justify-content: space-around; /* Распределяет элементы по ширине */
-    flex-wrap: wrap; /* Разрешает перенос элементов на новую строку */
-    margin-top: 40px; /* Устанавливает верхний отступ в 40 пикселей */
+    display: block;
+    margin-top: 40px;
 }
 
 .feature {
-    text-align: center; /* Центрирует текст */
-    width: 200px; /* Устанавливает ширину в 200 пикселей */
+    display: block;
+    text-align: left;
+    width: auto;
+    margin-bottom: 20px;
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
 }
 
 .feature img {
-    max-width: 100%; /* Устанавливает максимальную ширину в 100% от ширины родительского элемента */
-    height: auto; /* Автоматически устанавливает высоту */
-    margin-bottom: 10px; /* Устанавливает нижний отступ в 10 пикселей */
+    display: inline-block;
+    max-width: 80px;
+    margin-right: 15px;
+    vertical-align: middle;
 }
 
 .feature p {
-    margin: 0; /* Убирает внешние отступы */
-    font-size: 16px; /* Устанавливает размер шрифта в 16 пикселей */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    font-size: 16px;
 }
 
 /* Стили для ссылок в футере при наведении */
@@ -882,4 +889,15 @@ img {
         max-width: 25px;
         max-height: 25px;
     }
+}
+
+@media screen and (max-width: 600px) {
+  .feature img, .feature p {
+    display: block;
+    margin: 0 auto 8px auto;
+    text-align: center;
+  }
+  .feature p {
+    margin-bottom: 16px;
+  }
 }
