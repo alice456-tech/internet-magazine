@@ -480,14 +480,14 @@ body {
 
     /* Карусель */
     .carousel {
-        grid-template-columns: 1fr;
-        width: 100%;
-        margin: 0 auto;
-        padding: 0;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
     }
 
     .carousel__item {
-        min-width: 0;
+        min-width: 0 !important;
     }
 
     .carousel__item img {
